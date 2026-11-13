@@ -1,0 +1,87 @@
+.why {
+  background: var(--bg2);
+  padding: 0;
+  z-index: 3;
+}
+
+.inner {
+  position: relative;
+  min-height: max(100vh, 714px);
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 160px 32px;
+}
+
+.inner h2 {
+  max-width: 566px;
+}
+
+.left,
+.right {
+  position: absolute;
+  width: 211px;
+  height: auto;
+  border-radius: 16px;
+  transform: rotate(var(--rot));
+  will-change: transform;
+}
+
+.left {
+  left: 102px;
+  top: 32%;
+  --rot: -10.1deg;
+}
+
+.right {
+  right: 104px;
+  top: 9%;
+  --rot: 9.6deg;
+}
+
+@media (min-width: 901px) {
+  .photos {
+    display: contents;
+  }
+}
+
+@media (max-width: 1200px) {
+  .left {
+    left: 24px;
+  }
+  .right {
+    right: 24px;
+  }
+}
+
+@media (max-width: 900px) {
+  .inner {
+    min-height: 0;
+    padding: 80px 20px;
+    place-items: start;
+    text-align: left;
+  }
+  .inner h2 {
+    max-width: none;
+  }
+  .photos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    width: 100%;
+    margin-top: 40px;
+  }
+  .left,
+  .right {
+    position: static;
+    width: 100%;
+    transform: rotate(var(--rot)) scale(0.9);
+  }
+}
+
+/* Mobile: estrutura do frame 23:2040 do Figma (430px) */
+@media (max-width: 760px) {
+  .inner { padding: 156px 24px; min-height: 0; place-items: center; text-align: center; }
+  .inner h2 { font-size: 34px; max-width: 382px; }
+  .photos { display: none; }
+}

@@ -1,0 +1,127 @@
+.final {
+  background: #161616;
+  color: #fff;
+  overflow: hidden;
+}
+
+.bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.45;
+}
+
+.final::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(22, 22, 22, 0.92) 35%, rgba(22, 22, 22, 0.45));
+}
+
+.grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr 580px;
+  gap: 80px;
+  align-items: center;
+  max-width: 1256px;
+}
+
+.copy h2 {
+  font-size: clamp(36px, 3.8vw, 55px);
+}
+
+.copy :global(.eyebrow) {
+  margin-bottom: 18px;
+}
+
+.lead {
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 18px;
+  max-width: 532px;
+}
+
+.form {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 24px;
+  display: grid;
+  gap: 16px;
+}
+
+.field {
+  display: grid;
+  gap: 8px;
+}
+
+.field label {
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #fff;
+  font-weight: 500;
+}
+
+.field input {
+  width: 100%;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+  color: #fff;
+  font-family: var(--body);
+  font-weight: 300;
+  font-size: 16px;
+  padding: 10px 0;
+  outline: 0;
+  transition: border-color 0.25s;
+  border-radius: 0;
+}
+
+.field input::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.field input:focus {
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.form button {
+  width: 100%;
+  padding: 22px 32px;
+}
+
+.fine {
+  font-size: 11px;
+  color: #fff;
+  text-align: center;
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 1100px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+  }
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .form {
+    padding: 20px;
+  }
+}
+
+/* Mobile: estrutura do frame 23:2040 do Figma (430px) */
+@media (max-width: 760px) {
+  .final { padding: 95px 0; }
+  .grid { gap: 24px; }
+  .final h2 { font-size: 34px; }
+  .form { padding: 24px; }
+  .form button { padding: 22px 20px; }
+}

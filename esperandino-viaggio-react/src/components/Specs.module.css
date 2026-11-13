@@ -1,0 +1,174 @@
+.specs {
+  background: var(--dark);
+  color: #fff;
+  z-index: 1;
+}
+
+.inner {
+  max-width: 1060px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.head {
+  margin-bottom: 64px;
+  grid-template-columns: auto auto;
+  justify-content: space-between;
+}
+
+.seal {
+  display: flex;
+  align-items: flex-start;
+  padding: 12px 18px;
+  width: fit-content;
+  max-width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+  line-height: 1.2;
+  white-space: nowrap;
+  justify-self: end;
+}
+
+.grid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.spec {
+  padding: 36px 28px;
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.spec:nth-child(4n) {
+  border-right: 0;
+}
+
+.spec:nth-child(n + 5) {
+  border-bottom: 0;
+}
+
+.value {
+  font-family: var(--disp);
+  font-size: 56px;
+  line-height: 0.72;
+  letter-spacing: -0.032em;
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.value small {
+  font-family: var(--body);
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 0;
+  font-weight: 300;
+  line-height: 1.2;
+}
+
+.label {
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.75);
+  margin-top: 14px;
+  font-weight: 500;
+}
+
+/* Foto do cadeado que aparece ao passar o mouse em "TSA" */
+.hasPeek {
+  position: relative;
+  cursor: default;
+}
+
+.peek {
+  position: absolute;
+  z-index: 5;
+  left: calc(100% - 96px);
+  top: 8px;
+  width: 211px;
+  aspect-ratio: 211 / 238;
+  border-radius: 14px;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+  transform: rotate(-9.6deg) translateY(12px) scale(0.94);
+  transition: opacity 0.35s, transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.45);
+}
+
+.peek img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hasPeek:hover .peek {
+  opacity: 1;
+  transform: rotate(-9.6deg) translateY(0) scale(1);
+}
+
+.cta {
+  margin-top: 64px;
+  display: grid;
+}
+
+.cta a {
+  width: 100%;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .spec:nth-child(2n) {
+    border-right: 0;
+  }
+  .spec:nth-child(n + 5) {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+  .spec:nth-child(n + 7) {
+    border-bottom: 0;
+  }
+  .spec {
+    padding: 28px 20px;
+  }
+  .value {
+    font-size: 44px;
+  }
+  .peek {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .head {
+    grid-template-columns: 1fr;
+  }
+  .seal {
+    white-space: normal;
+    justify-self: start;
+  }
+}
+
+/* Mobile: estrutura do frame 23:2040 do Figma (430px) */
+@media (max-width: 760px) {
+  .specs { padding: 96px 0; }
+  .inner { padding: 0 24px; display: grid; }
+  .head { display: contents; }
+  .head > div { order: 1; text-align: center; margin-bottom: 34px; }
+  .specs h2 { font-size: 32px; }
+  .grid { order: 2; grid-template-columns: 1fr; width: 100%; }
+  .spec:nth-child(n) { border-right: 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05); text-align: center; padding: 36px 28px; }
+  .spec:last-child { border-bottom: 0; }
+  .value { justify-content: center; font-size: 56px; }
+  .seal { order: 3; margin: 34px 0 0; width: 100%; justify-content: center; white-space: nowrap; text-align: center; font-size: 9px; letter-spacing: 0.08em; padding: 12px 8px; justify-self: stretch; }
+  .cta { order: 4; margin-top: 34px; }
+}

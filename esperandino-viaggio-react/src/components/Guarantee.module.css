@@ -1,0 +1,68 @@
+.guar {
+  background: var(--bg4);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+  max-width: 1200px;
+}
+
+.lead {
+  margin-top: 24px;
+}
+
+.list {
+  list-style: none;
+  max-width: 562px; /* mesma largura do Figma; as linhas não vão até o canto */
+}
+
+.list li {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 16px;
+  border-top: 1px solid var(--line);
+  padding: 18px 0;
+}
+
+.list li:last-child {
+  border-bottom: 1px solid var(--line);
+}
+
+.index {
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  color: var(--ink3);
+  padding-top: 3px;
+}
+
+.list b {
+  display: block;
+  font-weight: 500;
+  font-size: 16px;
+  margin-bottom: 2px;
+}
+
+.list span:not(.index) {
+  color: var(--ink4);
+  font-size: 14px;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+/* Mobile: estrutura do frame 23:2040 do Figma (430px) */
+@media (max-width: 760px) {
+  .guar { padding: 96px 0; }
+  .grid { gap: 24px; padding: 0 28px; text-align: center; }
+  .guar h2 { font-size: 32px; }
+  .lead { margin: 12px auto 0; }
+  .list { max-width: none; text-align: left; }
+  .list li { grid-template-columns: 29px 1fr; gap: 8px; padding: 22px 0; }
+}

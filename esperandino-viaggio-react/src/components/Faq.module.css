@@ -1,0 +1,86 @@
+.faq {
+  background: var(--dark);
+  color: #fff;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 364px 621px;
+  gap: 34px;
+  justify-content: center;
+  align-items: start;
+}
+
+.head :global(.eyebrow) {
+  margin-bottom: 24px;
+}
+
+.item {
+  border-top: 1px solid var(--line-w);
+}
+
+.item:last-child {
+  border-bottom: 1px solid var(--line-w);
+}
+
+.q {
+  cursor: pointer;
+  list-style: none;
+  padding: 24px 0;
+  font-weight: 400;
+  font-size: 19px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+}
+
+.q::-webkit-details-marker {
+  display: none;
+}
+
+.q::after {
+  content: '+';
+  font-size: 24px;
+  font-weight: 300;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.item[open] .q::after {
+  content: '–';
+}
+
+.a {
+  color: #b1b1b1;
+  padding: 0 0 24px;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+@media (max-width: 1100px) {
+  .grid {
+    grid-template-columns: 1fr 1.6fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .q {
+    font-size: 16px;
+  }
+}
+
+/* Mobile: estrutura do frame 23:2040 do Figma (430px) */
+@media (max-width: 760px) {
+  .faq { padding: 112px 0; }
+  .grid { gap: 34px; }
+  .faq h2 { font-size: 32px; }
+  .q { font-size: 14px; }
+}

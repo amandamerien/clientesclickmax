@@ -1,0 +1,40 @@
+.footer {
+  background: var(--dark);
+  color: rgba(255, 255, 255, 0.5);
+  border-top: 1px solid var(--line-w);
+  padding: 40px 0;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #fff;
+  font-size: 13px;
+  letter-spacing: 0.3em;
+}
+
+.mono {
+  width: 17px;
+  height: 16px;
+}
+
+.links {
+  display: flex;
+  gap: 28px;
+}
+
+.links a:hover {
+  color: #fff;
+}

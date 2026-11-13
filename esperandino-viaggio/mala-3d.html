@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Esperandino Viaggio · Mala 3D</title>
+<style>
+  :root{--bg:#F3F4F6;--ink:#15181C;--ink3:#9CA2A9}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;overflow:hidden}
+  #c{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none;outline:0}
+  .hud{position:fixed;left:24px;bottom:22px;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--ink3);pointer-events:none;line-height:1.7}
+  .hud b{display:block;color:var(--ink);font-weight:400}
+  .btn{position:fixed;right:24px;bottom:22px;background:transparent;border:1px solid var(--ink);color:var(--ink);font:500 11px/1 Inter,system-ui,sans-serif;letter-spacing:.2em;text-transform:uppercase;padding:14px 20px;cursor:pointer;border-radius:0;transition:.25s}
+  .btn:hover{background:var(--ink);color:#fff}
+  #err{position:fixed;inset:0;display:none;place-items:center;font-size:13px;color:var(--ink3);text-align:center;padding:24px}
+  @media (max-width:640px){.hud{left:16px;bottom:72px}.btn{right:16px;bottom:16px}}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div class="hud"><b>Esperandino Viaggio</b>Arraste para girar · Scroll para aproximar</div>
+<button class="btn" id="save">Exportar PNG</button>
+<div id="err">Não foi possível carregar o Three.js.<br>Verifique a conexão e recarregue.</div>
+
+<script type="importmap">
+{"imports":{
+  "three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+  "three/addons/":"https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+}}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+/* ---------- renderer / scene / camera ---------- */
+const canvas = document.getElementById('c');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, preserveDrawingBuffer: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.05;
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+const scene = new THREE.Scene();
+const BG = new THREE.Color(0xF3F4F6);
+scene.background = BG;
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+scene.environmentIntensity = 0.7;
+
+const camera = new THREE.PerspectiveCamera(28, 1, 0.1, 100);
+camera.position.set(-3.5, 1.95, 4.45);
+const controls = new OrbitControls(camera, canvas);
+controls.target.set(0, 1.02, 0);
+controls.enableDamping = true; controls.dampingFactor = 0.06;
+controls.enablePan = false;
+controls.minDistance = 3.2; controls.maxDistance = 9;
+controls.minPolarAngle = 0.7; controls.maxPolarAngle = 1.52;
+controls.autoRotate = true; controls.autoRotateSpeed = 0.6;
+let idle;
+controls.addEventListener('start', () => { controls.autoRotate = false; clearTimeout(idle); });
+controls.addEventListener('end', () => { idle = setTimeout(() => controls.autoRotate = true, 2500); });
+
+/* ---------- lights ---------- */
+scene.add(new THREE.HemisphereLight(0xffffff, 0xd9dbde, 0.45));
+const key = new THREE.DirectionalLight(0xffffff, 1.7);
+key.position.set(-3.5, 6, 3.5);
+key.castShadow = true;
+key.shadow.mapSize.set(2048, 2048);
+key.shadow.camera.left = key.shadow.camera.bottom = -2.4;
+key.shadow.camera.right = key.shadow.camera.top = 2.4;
+key.shadow.camera.near = 1; key.shadow.camera.far = 20;
+key.shadow.bias = -0.0004; key.shadow.normalBias = 0.02; key.shadow.radius = 4;
+scene.add(key);
+const fill = new THREE.DirectionalLight(0xeef2ff, 0.7); fill.position.set(4, 2, -2); scene.add(fill);
+const rim = new THREE.DirectionalLight(0xffffff, 0.9); rim.position.set(2, 3.5, -4.5); scene.add(rim);
+
+/* ---------- materials ---------- */
+const M = {
+  alu:       new THREE.MeshPhysicalMaterial({ color: 0xb6bbc1, metalness: 1, roughness: 0.4, anisotropy: 0.5 }),
+  aluRib:    new THREE.MeshPhysicalMaterial({ color: 0xb9bec4, metalness: 1, roughness: 0.46, anisotropy: 0.6 }),
+  aluDark:   new THREE.MeshStandardMaterial({ color: 0x8c9198, metalness: 1, roughness: 0.5 }),
+  shell:     new THREE.MeshPhysicalMaterial({ color: 0x474b52, metalness: 0.55, roughness: 0.38, clearcoat: 0.4, clearcoatRoughness: 0.3 }),
+  black:     new THREE.MeshStandardMaterial({ color: 0x17181b, metalness: 0.1, roughness: 0.78 }),
+  blackGloss:new THREE.MeshPhysicalMaterial({ color: 0x121316, metalness: 0.15, roughness: 0.42, clearcoat: 0.45, clearcoatRoughness: 0.3 }),
+  rubber:    new THREE.MeshStandardMaterial({ color: 0x0f1012, metalness: 0, roughness: 0.95 }),
+  greyTire:  new THREE.MeshStandardMaterial({ color: 0x75787d, metalness: 0.05, roughness: 0.72 }),
+  chrome:    new THREE.MeshStandardMaterial({ color: 0xdadde2, metalness: 1, roughness: 0.18 }),
+  glass:     new THREE.MeshPhysicalMaterial({ color: 0x0a0b0e, metalness: 0.4, roughness: 0.1, clearcoat: 1, clearcoatRoughness: 0.06 }),
+  red:       new THREE.MeshStandardMaterial({ color: 0xff3030, emissive: 0xb00000, emissiveIntensity: 0.7, roughness: 0.4 }),
+};
+// grip: ribbed rubber via bump texture
+{
+  const gc = document.createElement('canvas'); gc.width = 4; gc.height = 64;
+  const g = gc.getContext('2d');
+  for (let y = 0; y < 64; y++) { const v = Math.round(128 + 110 * Math.sin(y / 64 * Math.PI * 2)); g.fillStyle = `rgb(${v},${v},${v})`; g.fillRect(0, y, 4, 1); }
+  const t = new THREE.CanvasTexture(gc); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(1, 9);
+  M.grip = new THREE.MeshStandardMaterial({ color: 0x141517, roughness: 0.9, bumpMap: t, bumpScale: 0.6 });
+}
+
+/* ---------- helpers ---------- */
+const root = new THREE.Group(); scene.add(root);
+function mesh(geo, mat, x = 0, y = 0, z = 0, parent = root) {
+  const m = new THREE.Mesh(geo, mat); m.position.set(x, y, z);
+  m.castShadow = true; m.receiveShadow = true; parent.add(m); return m;
+}
+function box(w, h, d, mat, x, y, z, r = 0, parent = root) {
+  const g = r > 0 ? new RoundedBoxGeometry(w, h, d, 4, r) : new THREE.BoxGeometry(w, h, d);
+  return mesh(g, mat, x, y, z, parent);
+}
+function cyl(rt, rb, h, mat, x, y, z, axis = 'y', parent = root, seg = 48) {
+  const g = new THREE.CylinderGeometry(rt, rb, h, seg);
+  if (axis === 'z') g.rotateX(Math.PI / 2); if (axis === 'x') g.rotateZ(Math.PI / 2);
+  return mesh(g, mat, x, y, z, parent);
+}
+function sphere(r, mat, x, y, z, parent = root) { return mesh(new THREE.SphereGeometry(r, 20, 14), mat, x, y, z, parent); }
+function roundedRect(w, h, r) {
+  const s = new THREE.Shape(), x = -w / 2, y = -h / 2;
+  s.moveTo(x + r, y); s.lineTo(x + w - r, y); s.quadraticCurveTo(x + w, y, x + w, y + r);
+  s.lineTo(x + w, y + h - r); s.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  s.lineTo(x + r, y + h); s.quadraticCurveTo(x, y + h, x, y + h - r);
+  s.lineTo(x, y + r); s.quadraticCurveTo(x, y, x + r, y); return s;
+}
+function extrude(shape, depth, bevel) {
+  return new THREE.ExtrudeGeometry(shape, { depth, bevelEnabled: true, bevelThickness: bevel, bevelSize: bevel, bevelSegments: 3, curveSegments: 14 });
+}
+
+/* ---------- dimensions (body height = 1) ---------- */
+const L = 1.26, W = 0.52, H = 1.0, Y0 = 0.34;   // length, width, height, ground clearance
+const yc = Y0 + H / 2, yt = Y0 + H;
+
+/* ---------- aluminium frame body ---------- */
+box(L, H, W, M.alu, 0, yc, 0, 0.035);
+
+/* ---------- moulded side shells (±z) ---------- */
+function sidePanel(sign) {
+  const g = new THREE.Group(); g.position.z = sign * W / 2; g.scale.z = sign; root.add(g);
+  box(L - 0.07, H - 0.1, 0.03, M.shell, 0, yc - 0.01, 0.012, 0.014, g);                    // outer shell
+  const pw = L - 0.2, ph = H - 0.24, bev = 0.008;
+  mesh(extrude(roundedRect(pw - 2 * bev, ph - 2 * bev, 0.05), 0.02, bev), M.shell, 0, yc - 0.02, 0.027 + bev, g); // inner panel
+  const s = new THREE.Shape(), b = -ph / 2 + 0.02;                                            // lower-rear bumper step
+  s.moveTo(0.12, b); s.lineTo(pw / 2 - 0.03, b); s.lineTo(pw / 2 - 0.03, b + 0.13);
+  s.lineTo(0.46, b + 0.13); s.lineTo(0.31, b + 0.31); s.lineTo(0.12, b + 0.31); s.closePath();
+  mesh(extrude(s, 0.006, 0.006), M.shell, 0, yc - 0.02, 0.055 + 0.006, g);
+  box(0.24, 0.6, 0.014, M.shell, -0.2, yc + 0.03, 0.062, 0.006, g);                         // pocket bezel
+  box(0.2, 0.56, 0.008, M.glass, -0.2, yc + 0.03, 0.073, 0.004, g);                           // pocket window
+  box(0.36, 0.075, 0.012, M.black, 0.27, yc + 0.19, 0.061, 0.025, g);                       // grip slot
+  for (let x = -L / 2 + 0.1; x < L / 2 - 0.08; x += 0.12) sphere(0.009, M.chrome, x, yt - 0.08, 0.029, g); // rivets
+}
+sidePanel(1); sidePanel(-1);
+
+/* ---------- fluted aluminium end faces (±x) ---------- */
+function endFace(sign) {
+  const g = new THREE.Group(); g.position.x = sign * L / 2; g.scale.x = sign; root.add(g); // local +x = outward
+  const z0 = sign < 0 ? -W / 2 + 0.165 : -W / 2 + 0.055, z1 = W / 2 - 0.05, pitch = 0.037;
+  const n = Math.floor((z1 - z0) / pitch + 1e-6);
+  for (let i = 0; i <= n; i++) box(0.012, H - 0.2, 0.029, M.aluRib, 0.005, yc - 0.03, z0 + i * pitch, 0.005, g);
+  for (const z of [-W / 2 + 0.028, W / 2 - 0.028])
+    for (let y = Y0 + 0.12; y < yt - 0.1; y += 0.095) sphere(0.01, M.chrome, 0.004, y, z, g);
+  if (sign < 0) {                                                                            // TSA lock panel (front)
+    const zp = -W / 2 + 0.09;
+    box(0.012, 0.42, 0.1, M.black, 0.006, yc + 0.02, zp, 0.004, g);
+    box(0.03, 0.022, 0.075, M.aluDark, 0.02, yc + 0.14, zp, 0.006, g);                      // latch
+    sphere(0.006, M.red, 0.012, yc + 0.05, zp, g);                                           // LED
+    box(0.006, 0.012, 0.03, M.aluDark, 0.013, yc + 0.0, zp, 0, g);                           // switch
+    box(0.004, 0.15, 0.06, M.rubber, 0.012, yc - 0.12, zp, 0, g);                            // keypad recess
+    for (let k = 0; k < 3; k++) cyl(0.012, 0.012, 0.04, M.chrome, 0.008, yc - 0.075 - k * 0.04, zp, 'z', g, 24);
+  }
+}
+endFace(-1); endFace(1);
+
+/* ---------- lid ---------- */
+box(L + 0.012, 0.064, W + 0.012, M.black, 0, yt - 0.026, 0, 0.018);  // lid frame
+box(L - 0.08, 0.012, W - 0.08, M.shell, 0, yt + 0.008, 0, 0.004);    // top panel
+const yS = yt + 0.014;
+// carry handle (front, far side)
+const hx = -L / 2 + 0.1, hz = -0.13;
+box(0.15, 0.07, 0.26, M.black, hx, yS + 0.035, hz, 0.02);
+box(0.1, 0.028, 0.2, M.rubber, hx - 0.03, yS + 0.04, hz, 0.008);
+box(0.03, 0.004, 0.05, M.alu, hx + 0.04, yS + 0.071, hz - 0.06, 0);
+
+/* ---------- handlebar ---------- */
+const sx = -L / 2 + 0.14, sz = 0.03, stemH = 0.8;
+box(0.17, 0.012, 0.17, M.black, sx, yS + 0.006, sz, 0.004);
+cyl(0.062, 0.07, 0.05, M.black, sx, yS + 0.037, sz);
+cyl(0.034, 0.034, 0.03, M.aluDark, sx, yS + 0.075, sz);
+cyl(0.03, 0.03, stemH, M.blackGloss, sx, yS + 0.06 + stemH / 2, sz);
+const yb = yS + 0.06 + stemH;
+cyl(0.048, 0.048, 0.17, M.black, sx, yb, sz, 'z');          // junction
+cyl(0.027, 0.027, 0.74, M.blackGloss, sx, yb, sz, 'z');     // bar
+for (const s of [1, -1]) {
+  cyl(0.036, 0.036, 0.19, M.grip, sx, yb, sz + s * 0.275, 'z');
+  cyl(0.041, 0.041, 0.016, M.black, sx, yb, sz + s * 0.372, 'z');
+  cyl(0.044, 0.044, 0.045, M.black, sx, yb, sz + s * 0.15, 'z');
+}
+box(0.085, 0.06, 0.15, M.black, sx, yb + 0.07, sz, 0.012);   // phone clamp
+box(0.05, 0.02, 0.17, M.rubber, sx, yb + 0.086, sz, 0.004);
+box(0.06, 0.035, 0.05, M.black, sx - 0.04, yb - 0.01, sz + 0.21, 0.01); // thumb throttle
+
+/* ---------- seat ---------- */
+box(0.64, 0.02, 0.44, M.black, 0.2, yS + 0.01, 0, 0.008);
+{
+  const p = new THREE.Shape();
+  p.moveTo(-0.29, 0); p.lineTo(0.31, 0); p.lineTo(0.31, 0.035);
+  p.splineThru([new THREE.Vector2(0.27, 0.068), new THREE.Vector2(0.16, 0.072), new THREE.Vector2(0.02, 0.04),
+                new THREE.Vector2(-0.12, 0.046), new THREE.Vector2(-0.24, 0.042), new THREE.Vector2(-0.29, 0.02)]);
+  p.lineTo(-0.29, 0);
+  const seat = mesh(extrude(p, 0.32, 0.04), M.blackGloss, 0.2, yS + 0.02, 0);
+  seat.position.z = -0.16;
+}
+
+/* ---------- wheels ---------- */
+function tire(R, tube, mat, parent) { return mesh(new THREE.TorusGeometry(R, tube, 24, 72), mat, 0, 0, 0, parent); }
+// front motor wheel
+const fw = new THREE.Group(); fw.position.set(-L / 2 + 0.2, 0.185, 0); root.add(fw);
+tire(0.14, 0.045, M.rubber, fw);
+cyl(0.11, 0.11, 0.094, M.black, 0, 0, 0, 'z', fw);
+for (const s of [1, -1]) {
+  cyl(0.075, 0.075, 0.012, M.aluDark, 0, 0, s * 0.052, 'z', fw);
+  cyl(0.03, 0.03, 0.016, M.chrome, 0, 0, s * 0.056, 'z', fw);
+}
+for (let i = 0; i < 28; i++) {                                // herringbone tread
+  const g = new THREE.Group(); g.rotation.z = i / 28 * Math.PI * 2; fw.add(g);
+  const b = box(0.01, 0.024, 0.08, M.rubber, 0.179, 0, 0, 0, g); b.rotation.x = (i % 2 ? 1 : -1) * 0.4;
+}
+box(0.3, 0.17, 0.2, M.black, -L / 2 + 0.2, Y0 - 0.075, 0, 0.02);          // motor housing / fork
+for (const s of [1, -1]) box(0.07, 0.14, 0.02, M.black, -L / 2 + 0.2, 0.2, s * 0.07, 0.005);
+// rear wheels
+for (const s of [1, -1]) {
+  const rw = new THREE.Group(); rw.position.set(L / 2 - 0.19, 0.2, s * (W / 2 + 0.08)); root.add(rw);
+  tire(0.15, 0.05, M.greyTire, rw);
+  cyl(0.135, 0.135, 0.1, M.black, 0, 0, 0, 'z', rw);
+  cyl(s > 0 ? 0.065 : 0.11, s > 0 ? 0.11 : 0.065, 0.03, M.black, 0, 0, s * 0.06, 'z', rw);
+  const logo = box(0.095, 0.007, 0.014, M.aluDark, 0, 0, s * 0.076, 0, rw); logo.rotation.z = 0.6;
+  box(0.16, 0.16, 0.05, M.black, L / 2 - 0.19, 0.27, s * (W / 2 + 0.025), 0.008);  // bracket
+}
+cyl(0.016, 0.016, W + 0.2, M.aluDark, L / 2 - 0.19, 0.2, 0, 'z');            // axle
+
+/* ---------- footrests ---------- */
+const fx = -L / 2 + 0.44, fy = 0.1;
+box(0.1, 0.26, 0.14, M.black, fx, 0.22, 0, 0.01);                           // post
+box(0.1, 0.05, W + 0.14, M.black, fx, fy, 0, 0.012);                         // cross member
+for (const s of [1, -1]) {
+  const zb = s * (W / 2 + 0.07), zf = s * (W / 2 + 0.1 + 0.17);
+  box(0.09, 0.06, 0.06, M.black, fx, fy, zb, 0.01);
+  box(0.075, 0.022, 0.34, M.black, fx, fy - 0.005, zf, 0.01);
+  for (let k = -1; k <= 1; k++) box(0.06, 0.004, 0.08, M.rubber, fx, fy + 0.008, zf + k * 0.1, 0);
+}
+
+/* ---------- ground ---------- */
+const ground = new THREE.Mesh(new THREE.PlaneGeometry(14, 14), new THREE.ShadowMaterial({ opacity: 0.2 }));
+ground.rotation.x = -Math.PI / 2; ground.receiveShadow = true; scene.add(ground);
+{
+  const c = document.createElement('canvas'); c.width = c.height = 256; const ctx = c.getContext('2d');
+  const gr = ctx.createRadialGradient(128, 128, 8, 128, 128, 128);
+  gr.addColorStop(0, 'rgba(0,0,0,0.36)'); gr.addColorStop(0.5, 'rgba(0,0,0,0.13)'); gr.addColorStop(1, 'rgba(0,0,0,0)');
+  ctx.fillStyle = gr; ctx.fillRect(0, 0, 256, 256);
+  const ao = new THREE.Mesh(new THREE.PlaneGeometry(2.7, 1.6), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(c), transparent: true, depthWrite: false }));
+  ao.rotation.x = -Math.PI / 2; ao.position.y = 0.002; scene.add(ao);
+}
+
+/* ---------- loop ---------- */
+function resize() {
+  const w = innerWidth, h = innerHeight;
+  renderer.setSize(w, h, false); camera.aspect = w / h;
+  camera.fov = camera.aspect < 1.1 ? THREE.MathUtils.clamp(31 / camera.aspect, 28, 62) : 28; // keep it whole on tall screens
+  camera.updateProjectionMatrix();
+}
+addEventListener('resize', resize); resize();
+renderer.setAnimationLoop(() => { controls.update(); renderer.render(scene, camera); });
+
+/* ---------- export transparent PNG ---------- */
+document.getElementById('save').onclick = () => {
+  const pr = renderer.getPixelRatio();
+  scene.background = null; renderer.setPixelRatio(2); resize(); renderer.render(scene, camera);
+  canvas.toBlob(b => {
+    const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'esperandino-mala-3d.png'; a.click();
+    scene.background = BG; renderer.setPixelRatio(pr); resize();
+  }, 'image/png');
+};
+</script>
+<script>
+addEventListener('error', e => { if (/import|module|three/i.test(e.message || '') || e.target?.tagName === 'SCRIPT') document.getElementById('err').style.display = 'grid'; }, true);
+</script>
+</body>
+</html>

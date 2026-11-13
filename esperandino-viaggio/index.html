@@ -1,0 +1,602 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Esperandino Viaggio · Pré-venda</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  @font-face{font-family:'Aspekta';src:url(assets/fonts/AspektaVF.ttf) format('truetype');font-weight:100 900;font-display:swap}
+  :root{
+    --bg:#F3F4F6; --bg2:#FFFFFF; --bg3:#E8EAED; --bg4:#FBFBFB; --dark:#15181C; --hero:#242424;
+    --ink:#15181C; --ink2:#494D52; --ink3:#9CA2A9; --ink4:#5F656C;
+    --accent:#AE8968;
+    --line:rgba(21,24,28,.1); --line-w:rgba(255,255,255,.1);
+    --it-g:#008D51; --it-r:#DC0025;
+    --disp:'Aspekta','Inter Tight',system-ui,sans-serif;
+    --body:'Inter',system-ui,sans-serif;
+    --max:1240px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg2);color:var(--ink);font-family:var(--body);font-weight:300;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  img{display:block;max-width:100%}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 32px}
+  section{position:relative;padding:128px 0}
+  @media(max-width:760px){section{padding:80px 0}.wrap{padding:0 20px}}
+
+  /* type */
+  h1,h2,h3{font-family:var(--disp);font-weight:400;text-transform:uppercase;line-height:1;letter-spacing:-.032em}
+  h1{font-size:clamp(38px,3.9vw,56px)}
+  h2{font-size:clamp(34px,3.5vw,50px)}
+  h3{font-family:var(--body);font-size:20px;font-weight:400;letter-spacing:.04em;line-height:1.2}
+  .eyebrow{font-size:12px;letter-spacing:0;text-transform:uppercase;color:var(--accent);font-weight:500;line-height:1.2;margin-bottom:12px}
+  .eyebrow.sp{font-size:11px;letter-spacing:.3em}
+  .lead{font-size:18px;color:var(--ink4);max-width:520px;line-height:1.7}
+  .tricolor{height:2px;width:100%;background:linear-gradient(90deg,var(--it-g) 0 33.3%,#fff 33.3% 66.6%,var(--it-r) 66.6%)}
+  .head{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;margin-bottom:64px}
+  @media(max-width:900px){.head{grid-template-columns:1fr;gap:20px;margin-bottom:44px}}
+
+  /* buttons */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;padding:18px 32px;font-family:var(--body);font-weight:600;font-size:12px;letter-spacing:.2em;text-transform:uppercase;transition:.25s;cursor:pointer;border:1px solid var(--ink);border-radius:0;white-space:nowrap;line-height:1.25}
+  .btn-accent{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .btn-accent:hover{background:#9c7757;border-color:#9c7757}
+  .btn-ghost-w{background:transparent;color:#fff;border-color:rgba(255,255,255,.5)}
+  .btn-ghost-w:hover{border-color:#fff}
+
+  /* nav */
+  nav{position:absolute;top:0;left:0;right:0;z-index:50;padding:45px 0;color:#fff}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between}
+  .brand{display:flex;align-items:center;gap:12px;font-family:var(--body);font-size:13px;letter-spacing:.3em;text-transform:uppercase;font-weight:400}
+  .mono{width:17px;height:16px;flex:none}
+  nav a.lnk{font-size:11px;letter-spacing:.25em;text-transform:uppercase;font-weight:500;border-bottom:1px solid currentColor;padding-bottom:3px}
+
+  /* hero */
+  .hero{min-height:max(100vh,760px);padding:0;background:var(--hero);color:#fff;display:grid;align-items:end;z-index:3}
+  .motion,.specs{z-index:1}
+  .why{z-index:3}
+  .lot,.ph-l,.ph-r{will-change:transform}
+  .hero-bg{position:absolute;inset:0;background:url(assets/hero3.webp) 50% 50%/cover no-repeat}
+  .hero .wrap{position:relative;z-index:2;width:100%;padding-top:clamp(136px,calc(27vh - 34px),215px);padding-bottom:112px;display:grid;grid-template-columns:1fr auto;gap:48px;align-items:start}
+  .hero-copy{max-width:593px}
+  .lot{margin-top:24px} /* alinha o topo do card com o H1 (kicker 14px + gap 10px) */
+  .kicker{display:flex;align-items:center;gap:13px;font-size:12px;font-weight:500;letter-spacing:0;text-transform:uppercase;color:#fff;margin-bottom:10px}
+  .kicker i{width:2px;height:2px;background:#fff;border-radius:50%}
+  .hero .lead{color:#fff;font-size:16px;line-height:1.6;max-width:491px;margin:17px 0 30px}
+  .hero-cta{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+  .cells{display:flex;gap:24px;flex-wrap:wrap;margin-top:86px}
+  .cell{display:flex;gap:8px;align-items:flex-start;font-size:12px;letter-spacing:.12em;text-transform:uppercase;line-height:1.25}
+  .cell svg{width:24px;height:24px;flex:none;margin-top:2px}
+  .cell b{font-weight:600;display:block;margin-bottom:2px}
+  .hero .cell{color:#fff}
+  .hero .cell svg{color:var(--accent)}
+  .lot{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(18px);padding:24px;width:306px;display:grid;gap:16px}
+  .lot .k{font-size:12px;letter-spacing:0;text-transform:uppercase;color:#fff;font-weight:500;line-height:1.2}
+  .lot .n{font-family:var(--disp);font-weight:400;font-size:56px;line-height:1;letter-spacing:-.032em;display:flex;align-items:center;gap:13px}
+  .lot .n svg{width:13px;height:48px;flex:none}
+  .lot-rows{display:grid;gap:12px}
+  .lot-row{display:flex;justify-content:space-between;align-items:center;gap:20px;font-size:12px;letter-spacing:.04em;line-height:1.25}
+  .lot-row span{color:rgba(255,255,255,.7)}
+  .lot-row b{font-weight:500;color:#fff;text-transform:uppercase;font-size:10px}
+  .lot-row:first-child{border-bottom:1px solid rgba(255,255,255,.08);padding-bottom:8px}
+  .lot .btn{width:100%}
+  .lot .tricolor{margin-top:0}
+  @media(max-width:900px){
+    .hero{display:block;min-height:0}
+    .hero .wrap{grid-template-columns:1fr;padding-top:0;margin-top:-80px;padding-bottom:40px;gap:28px}
+    .lot{margin-top:0}
+    .hero-bg{position:relative;height:62vh;min-height:420px;background-position:62% 50%}
+    .hero-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(36,36,36,0) 55%,var(--hero) 100%)}
+    .cells{margin-top:40px;gap:16px;flex-direction:column}
+    nav{padding:22px 0}.brand{font-size:11px;letter-spacing:.22em;gap:10px}nav a.lnk{white-space:nowrap;font-size:10px}
+    .lot{width:100%}
+  }
+
+  /* motion */
+  .motion{background:var(--bg)}
+  .motion .head p{max-width:400px;justify-self:end}
+  .frames{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .frame{aspect-ratio:387/502;background:var(--bg3);position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:26px;color:#fff}
+  .frame::before{content:"";position:absolute;inset:0;background:var(--img) center/cover no-repeat;transform:scale(1.02);transition:transform 1.2s}
+  .frame:hover::before{transform:scale(1.07)}
+  .frame::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(21,24,28,.1) 0%,transparent 30%,transparent 50%,rgba(21,24,28,.85) 100%)}
+  .frame p,.frame small{position:relative;z-index:1}
+  .frame small{display:block;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:#fff;margin-bottom:10px;font-weight:500}
+  .frame p{font-family:var(--body);font-size:22px;line-height:1.2;font-weight:300;text-transform:uppercase}
+  .frame .num{position:absolute;z-index:1;top:22px;left:26px;font-size:11px;letter-spacing:.3em;font-weight:500}
+  @media(max-width:900px){.motion .head p{justify-self:start}}
+  @media(max-width:760px){.frames{grid-template-columns:1fr}.frame{aspect-ratio:4/4.6}}
+
+  /* why */
+  .why{background:var(--bg2);padding:0}
+  .why-hero{position:relative;min-height:max(100vh,714px);display:grid;place-items:center;text-align:center;padding:160px 32px}
+  .why-hero h2{max-width:566px}
+  .why-hero .ph-l,.why-hero .ph-r{position:absolute;width:211px;border-radius:16px;overflow:hidden;background-size:cover;background-position:center;transform:rotate(var(--rot))}
+  .why-hero .ph-l{left:102px;top:32%;aspect-ratio:211/257;background-image:url(assets/why-1-flat.webp);--rot:-10.1deg}
+  .why-hero .ph-r{right:104px;top:9%;aspect-ratio:211/238;background-image:url(assets/why-2-flat.webp);--rot:9.6deg}
+  @media(max-width:1200px){.why-hero .ph-l{left:24px}.why-hero .ph-r{right:24px}}
+  @media(max-width:900px){
+    .why-hero{min-height:0;padding:80px 20px;place-items:start;text-align:left}
+    .why-hero h2{max-width:none}
+    .why-hero .ph-l,.why-hero .ph-r{position:static;width:100%;transform:rotate(var(--rot)) scale(.9)}
+    .why-photos{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;margin-top:40px}
+  }
+  @media(min-width:901px){.why-photos{display:contents}}
+
+  /* specs */
+  .specs{background:var(--dark);color:#fff}
+  .specs-in{max-width:1060px;margin:0 auto;padding:0 32px}
+  .specs .head{margin-bottom:64px;grid-template-columns:auto auto;justify-content:space-between}
+  .seal{display:flex;align-items:flex-start;padding:12px 18px;width:fit-content;max-width:100%;border:1px solid rgba(255,255,255,.07);font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.8);font-weight:500;line-height:1.2;white-space:nowrap;justify-self:end}
+  @media(max-width:760px){.specs .head{grid-template-columns:1fr}.seal{white-space:normal;justify-self:start}}
+  .spec-grid{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid rgba(255,255,255,.07)}
+  .spec{padding:36px 28px;border-right:1px solid rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.05)}
+  .spec:nth-child(4n){border-right:0}
+  .spec:nth-child(n+5){border-bottom:0}
+  .spec .v{font-family:var(--disp);font-weight:400;font-size:56px;line-height:.72;letter-spacing:-.032em;display:flex;align-items:flex-end;gap:4px}
+  .spec .v small{font-family:var(--body);font-size:16px;color:rgba(255,255,255,.5);letter-spacing:0;font-weight:300;line-height:1.2}
+  .spec .l{font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.75);margin-top:14px;font-weight:500}
+  .spec.tsa{position:relative;cursor:default}
+  .peek{position:absolute;z-index:5;left:calc(100% - 96px);top:8px;width:211px;aspect-ratio:211/238;border-radius:14px;overflow:hidden;pointer-events:none;opacity:0;transform:rotate(-9.6deg) translateY(12px) scale(.94);transition:opacity .35s,transform .45s cubic-bezier(.2,.7,.2,1);box-shadow:0 30px 60px rgba(0,0,0,.45)}
+  .peek img{width:100%;height:100%;object-fit:cover}
+  .spec.tsa:hover .peek{opacity:1;transform:rotate(-9.6deg) translateY(0) scale(1)}
+  @media(max-width:900px){.peek{display:none}}
+  .specs .cta{margin-top:64px;display:grid;gap:16px}
+  .specs .cta .btn{width:100%;padding:18px 32px}
+  @media(max-width:900px){.spec-grid{grid-template-columns:1fr 1fr}.spec:nth-child(2n){border-right:0}.spec:nth-child(n+5){border-bottom:1px solid rgba(255,255,255,.05)}.spec:nth-child(n+7){border-bottom:0}.spec{padding:28px 20px}.spec .v{font-size:44px}}
+
+  /* colors */
+  .colors{background:var(--bg2)}
+  .colors .wrap{display:grid;grid-template-columns:533px 1fr;gap:80px;align-items:center}
+  .plate{aspect-ratio:533/625;position:relative;overflow:hidden;background:var(--bg3)}
+  .plate-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .6s}
+  .plate-img.on{opacity:1}
+  .plate-cta{display:none}
+  .sw.on{border-color:#272D3B}
+  .sw.on.ivory-on{border-color:#9A9A9A}
+  .colors .lead{margin-top:24px}
+  .swatches{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:24px}
+  .sw{border:1px solid rgba(80,80,80,.07);padding:8px;cursor:pointer;transition:.25s;background:var(--bg2);text-align:center}
+  .sw.on{border-color:#272D3B}
+  .sw i{display:block;height:50px;margin-bottom:8px}
+  .sw .navy{background:#272D3B}
+  .sw .ivory{background:#D7D7D7}
+  .sw b{display:block;font-weight:500;letter-spacing:0;text-transform:uppercase;font-size:12px;color:#000;padding-bottom:4px}
+  @media(max-width:1100px){.colors .wrap{grid-template-columns:1fr 1fr;gap:48px}}
+  @media(max-width:900px){.colors .wrap{grid-template-columns:1fr;gap:40px}.swatches{gap:12px}}
+
+  /* guarantee */
+  .guar{background:var(--bg4)}
+  .guar .wrap{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;max-width:1200px}
+  .guar .lead{margin-top:24px}
+  .glist{list-style:none;counter-reset:g;max-width:562px}
+  .glist li{display:grid;grid-template-columns:48px 1fr;gap:16px;border-top:1px solid var(--line);padding:18px 0;counter-increment:g}
+  .glist li:last-child{border-bottom:1px solid var(--line)}
+  .glist li::before{content:"0" counter(g);font-size:12px;letter-spacing:.2em;color:var(--ink3);padding-top:3px}
+  .glist b{display:block;font-weight:500;font-size:16px;margin-bottom:2px}
+  .glist span{color:var(--ink4);font-size:14px}
+  @media(max-width:900px){.guar .wrap{grid-template-columns:1fr;gap:40px}}
+
+  /* price */
+  .price{background:var(--dark);color:#fff;padding:0;display:grid;grid-template-columns:736fr 704fr;min-height:818px}
+  .price-photo{background:url(assets/preco.webp) center/cover no-repeat}
+  .price-col{display:grid;place-items:center;padding:121px 48px}
+  .price-in{width:100%;max-width:452px;text-align:center}
+  .price-in .eyebrow{text-align:center}
+  .price-in h2{font-size:clamp(40px,4.3vw,62px)}
+  .price-in .lead{color:#B0B0B0;line-height:1.4;max-width:412px;margin:12px auto 0}
+  .pbox{background:#fff;color:var(--ink);border:1px solid var(--line);padding:34px 48px;margin-top:45px;display:grid;gap:10px;justify-items:center}
+  .was{font-size:13px;color:#5E5E5E;letter-spacing:.1em;text-transform:uppercase;font-weight:400}
+  .now{font-family:var(--disp);font-weight:400;font-size:96px;line-height:1;letter-spacing:-.017em;display:flex;align-items:flex-start;gap:6px}
+  .now sup{font-size:22px;font-weight:350;line-height:1.4;letter-spacing:0}
+  .pbox .btn{width:100%;margin-top:10px}
+  .pbox .fine{font-size:11px;color:#5C5C5C;letter-spacing:.04em;padding:12px 0 0}
+  @media(max-width:900px){.price{grid-template-columns:1fr;min-height:0}.price-photo{aspect-ratio:736/600}.price-col{padding:80px 20px}.pbox{padding:28px 20px}.now{font-size:72px}}
+
+  /* founder */
+  .founder{background:var(--bg2)}
+  .founder .wrap{display:grid;grid-template-columns:500px 520px;gap:80px;align-items:center;justify-content:center}
+  .portrait{aspect-ratio:500/625;background:url(assets/fundador.webp) center/cover no-repeat}
+  .quote{font-family:var(--disp);font-weight:400;font-size:24px;line-height:1.25;margin:24px 0;text-transform:uppercase;color:var(--ink)}
+  .founder .lead{line-height:1.5}
+  .sig{margin-top:24px;font-weight:500;font-size:14px;text-transform:uppercase}
+  .sig small{display:block;font-size:12px;letter-spacing:.25em;text-transform:uppercase;color:var(--ink3);margin-top:4px;font-weight:500}
+  @media(max-width:1140px){.founder .wrap{grid-template-columns:1fr 1.1fr;gap:48px}}
+  @media(max-width:900px){.founder .wrap{grid-template-columns:1fr;gap:40px}}
+
+  /* faq */
+  .faq{background:var(--dark);color:#fff}
+  .faq .wrap{display:grid;grid-template-columns:364px 621px;gap:34px;justify-content:center;align-items:start}
+  .faq .eyebrow{margin-bottom:24px}
+  details{border-top:1px solid var(--line-w)}
+  details:last-child{border-bottom:1px solid var(--line-w)}
+  summary{cursor:pointer;list-style:none;padding:24px 0;font-family:var(--body);font-weight:400;font-size:19px;display:flex;justify-content:space-between;align-items:center;gap:20px;text-transform:uppercase;letter-spacing:.02em;line-height:1.2}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";font-size:24px;font-weight:300;color:var(--accent);line-height:1}
+  details[open] summary::after{content:"–"}
+  details p{color:#B1B1B1;padding:0 0 24px;font-size:15px;line-height:1.6}
+  @media(max-width:1100px){.faq .wrap{grid-template-columns:1fr 1.6fr}}
+  @media(max-width:900px){.faq .wrap{grid-template-columns:1fr;gap:32px}summary{font-size:16px}}
+
+  /* final */
+  .final{background:#161616;color:#fff;overflow:hidden}
+  .final::before{content:"";position:absolute;inset:0;background:url(assets/final-bg.webp) 50% 50%/cover no-repeat;opacity:.45}
+  .final::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(22,22,22,.92) 35%,rgba(22,22,22,.45))}
+  .final .wrap{position:relative;z-index:1;display:grid;grid-template-columns:1fr 580px;gap:80px;align-items:center;max-width:1256px;padding:0 32px}
+  .final h2{font-size:clamp(36px,3.8vw,55px)}
+  .final .eyebrow{margin-bottom:18px}
+  .final .lead{color:rgba(255,255,255,.6);margin-top:18px;max-width:532px}
+  form{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);padding:24px;display:grid;gap:16px}
+  .field{display:grid;gap:8px}
+  label{display:block;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:#fff;font-weight:500}
+  input{width:100%;background:transparent;border:0;border-bottom:1px solid rgba(255,255,255,.09);color:#fff;font-family:var(--body);font-weight:300;font-size:16px;padding:10px 0;outline:0;transition:.25s;border-radius:0}
+  input::placeholder{color:rgba(255,255,255,.35)}
+  input:focus{border-color:rgba(255,255,255,.5)}
+  form .btn{width:100%;padding:22px 32px}
+  .fine{font-size:11px;color:#fff;text-align:center;letter-spacing:.04em}
+  @media(max-width:1100px){.final .wrap{grid-template-columns:1fr 1fr;gap:48px}}
+  @media(max-width:900px){.final .wrap{grid-template-columns:1fr;gap:40px}form{padding:20px}.btn{white-space:normal;text-align:center;padding-left:20px;padding-right:20px}}
+
+  footer{background:var(--dark);color:rgba(255,255,255,.5);border-top:1px solid var(--line-w);padding:40px 0;font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+  footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:center}
+  footer .brand{color:#fff}
+  footer a:hover{color:#fff}
+
+  /* animações de entrada ao rolar */
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity 1s cubic-bezier(.2,.7,.2,1),transform 1s cubic-bezier(.2,.7,.2,1)}
+  .reveal.reveal-zoom{transform:scale(1.06)}
+  .reveal.in{opacity:1;transform:none}
+  [data-stagger]{transform:none}
+  [data-stagger]>*{opacity:0;transform:translateY(26px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
+  [data-stagger].in>*{opacity:1;transform:none}
+  [data-stagger]>*:nth-child(2){transition-delay:.1s}
+  [data-stagger]>*:nth-child(3){transition-delay:.2s}
+  [data-stagger]>*:nth-child(4){transition-delay:.3s}
+  [data-stagger]>*:nth-child(5){transition-delay:.4s}
+  [data-stagger]>*:nth-child(6){transition-delay:.5s}
+  [data-stagger]>*:nth-child(7){transition-delay:.6s}
+  [data-stagger]>*:nth-child(8){transition-delay:.7s}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+  .hero-copy>*{animation:fadeUp .9s cubic-bezier(.2,.7,.2,1) backwards}
+  .hero-copy>*:nth-child(1){animation-delay:.15s}
+  .hero-copy>*:nth-child(2){animation-delay:.25s}
+  .hero-copy>*:nth-child(3){animation-delay:.35s}
+  .hero-copy>*:nth-child(4){animation-delay:.45s}
+  .hero-copy>*:nth-child(5){animation-delay:.55s}
+  .lot{animation:fadeUp .9s cubic-bezier(.2,.7,.2,1) .5s backwards}
+  .price,.plate,.portrait{overflow:hidden}
+  @media(prefers-reduced-motion:reduce){.reveal,[data-stagger]>*{opacity:1;transform:none;transition:none}.hero-copy>*,.lot{animation:none}}
+
+  /* ===== Mobile (estrutura do frame 23:2040 do Figma, 430px) ===== */
+  @media(max-width:760px){
+    .wrap{padding:0 24px}
+    h2{font-size:32px}
+    nav{padding:45px 0}
+    nav a.lnk{display:none}
+    /* hero: foto de fundo inteira, texto por cima, card de lote oculto */
+    .hero{display:grid;align-items:end;min-height:max(100vh,760px)}
+    .hero-bg{position:absolute;inset:0;height:auto;min-height:0;background-position:60% 50%}
+    .hero-bg::after{background:linear-gradient(180deg,rgba(36,36,36,.05) 0%,rgba(36,36,36,.45) 40%,rgba(36,36,36,.88) 100%)}
+    .hero .wrap{grid-template-columns:1fr;padding:140px 24px 56px;margin-top:0;gap:0}
+    .kicker{margin-bottom:24px}
+    h1{font-size:34px}
+    .hero .lead{font-size:16px;line-height:1.6;margin:17px 0 30px}
+    .hero-cta{flex-direction:column;gap:14px}
+    .hero-cta .btn{width:100%}
+    .cells{display:none}
+    .lot{display:none}
+    /* em movimento */
+    .motion{padding:112px 0}
+    .motion .head{gap:12px;margin-bottom:34px}
+    .motion .head p{font-size:18px;line-height:1.5;max-width:none}
+    .frames{gap:16px}
+    .frame{aspect-ratio:382/502}
+    /* por que elétrica: só o título, centralizado */
+    .why-hero{padding:156px 24px;min-height:0;place-items:center;text-align:center}
+    .why-hero h2{font-size:34px;max-width:382px}
+    .why-photos{display:none}
+    /* especificações: título centralizado, grade em coluna única, selo e botão abaixo */
+    .specs{padding:96px 0}
+    .specs-in{padding:0 24px;display:grid}
+    .specs .head{display:contents}
+    .specs .head>div:first-child{order:1;text-align:center;margin-bottom:34px}
+    .specs h2{font-size:32px}
+    .spec-grid{order:2;grid-template-columns:1fr;width:100%}
+    .spec:nth-child(n){border-right:0;border-bottom:1px solid rgba(255,255,255,.05);text-align:center;padding:36px 28px}
+    .spec:last-child{border-bottom:0}
+    .spec .v{justify-content:center;font-size:56px}
+    .specs .seal{order:3;margin:34px 0 0;width:100%;justify-content:center;white-space:nowrap;text-align:center;font-size:9px;letter-spacing:.08em;padding:12px 8px;justify-self:stretch}
+    .specs .cta{order:4;margin-top:34px}
+    /* duas cores */
+    .colors{padding:96px 0}
+    .colors .wrap{gap:34px}
+    .plate{aspect-ratio:382/444;overflow:visible}
+    .plate.reveal-zoom{transform:none}
+    .plate-cta{display:inline-flex;position:absolute;left:50%;bottom:20px;transform:translateX(-50%);z-index:2;backdrop-filter:blur(8px);background:rgba(21,24,28,.25)}
+    .colors h2{font-size:34px}
+    .colors .lead{margin-top:12px}
+    .swatches{gap:8px;margin-top:12px}
+    /* o que o sinal garante */
+    .guar{padding:96px 0}
+    .guar .wrap{gap:24px;padding:0 28px;text-align:center}
+    .guar h2{font-size:32px}
+    .guar .lead{margin:12px auto 0}
+    .glist{max-width:none;text-align:left}
+    .glist li{grid-template-columns:29px 1fr;gap:8px;padding:22px 0}
+    /* investimento: título, foto, caixa de preço sobre a foto */
+    .price{display:flex;flex-direction:column;align-items:center;min-height:0;padding:56px 0;text-align:center}
+    .price-col,.price-in{display:contents}
+    .price-in>*{order:1}
+    .price .eyebrow{text-align:center}
+    .price h2{font-size:34px;padding:0 20px}
+    .price .lead{font-size:14px;max-width:320px;margin:12px auto 0}
+    .price-photo{order:2;width:100%;aspect-ratio:430/297;margin-top:45px}
+    .pbox{order:3;width:calc(100% - 56px);margin:-140px 28px 0;position:relative;z-index:1;padding:34px 24px;text-align:center}
+    .now{font-size:clamp(64px,24vw,96px)}
+    /* origem */
+    .founder{padding:56px 0}
+    .founder .wrap{gap:34px;padding:0 20px}
+    .founder h2{font-size:34px}
+    .portrait{aspect-ratio:390/479}
+    .quote{font-size:20px;margin:14px 0}
+    .founder .lead{font-size:16px}
+    .sig{margin-top:14px}
+    /* faq */
+    .faq{padding:112px 0}
+    .faq .wrap{gap:34px}
+    .faq h2{font-size:32px}
+    summary{font-size:14px}
+    /* reserve */
+    .final{padding:95px 0}
+    .final .wrap{gap:24px}
+    .final h2{font-size:34px}
+    form{padding:24px}
+    form .btn{padding:22px 20px}
+  }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute">
+  <symbol id="monogram" viewBox="0 0 19 17"><path d="M9.1 8.41 17.02.49H1.18l7.92 7.92Zm0 0 7.92 7.92H1.18l7.92-7.92Z" fill="none" stroke="currentColor" stroke-width="1"/></symbol>
+  <symbol id="tick2" viewBox="0 0 24 24"><path d="M3 12.5 7.5 17 17 7.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" opacity=".35"/><path d="M8 12.5 12.5 17 22 7.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#"><svg class="mono"><use href="#monogram"/></svg>Esperandino Viaggio</a>
+    <a class="lnk" href="#reservar">Reservar vaga</a>
+  </div>
+</nav>
+
+<!-- 01 HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="wrap">
+    <div class="hero-copy">
+      <div class="kicker">Pré-venda <i></i> reserva exclusiva</div>
+      <h1>Chegue ao portão sem esforço, com o celular carregado.</h1>
+      <p class="lead">Mala elétrica de cabine com design italiano. Você senta, ela anda. Do táxi ao portão sem esforço, com o celular carregado.</p>
+      <div class="hero-cta">
+        <a class="btn btn-accent" href="#reservar">Reservar minha vaga</a>
+        <a class="btn btn-ghost-w" href="#sinal">Como funciona</a>
+      </div>
+      <div class="cells">
+        <div class="cell"><svg><use href="#tick2"/></svg><div><b>Porta USB-C</b>Celular sempre carregado</div></div>
+        <div class="cell"><svg><use href="#tick2"/></svg><div><b>Embarca com você</b>Bateria liberada para voo</div></div>
+      </div>
+    </div>
+    <div class="lot">
+      <div class="k">Reserva exclusiva</div>
+      <div class="n">31 <svg viewBox="0 0 13 48"><path d="M8.2 0h4.59L4.59 47.68H0L8.2 0Z" fill="#fff"/></svg> 50</div>
+      <div class="lot-rows">
+        <div class="lot-row"><span>Entrega prevista</span><b>Março 2027</b></div>
+        <div class="lot-row"><span>Preço de lote</span><b>Travado na reserva</b></div>
+      </div>
+      <a class="btn btn-accent" href="#reservar">Reservar minha vaga</a>
+      <div class="tricolor"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 MOTION -->
+<section class="motion">
+  <div class="wrap">
+    <div class="head">
+      <div><div class="eyebrow reveal">Em movimento</div><h2 class="reveal">Do táxi ao portão,<br>sem puxar nada.</h2></div>
+      <p class="lead reveal">Guidão telescópico, acelerador no polegar e um motor silencioso. Quando chega a hora de embarcar, ela dobra e vira uma mala comum.</p>
+    </div>
+    <div class="frames reveal" data-stagger>
+      <div class="frame" style="--img:url(assets/motion-1.webp)"><span class="num">01</span><small>Suba e vá</small><p>Estenda o guidão.<br>Acelere com o polegar.</p></div>
+      <div class="frame" style="--img:url(assets/motion-2.webp)"><span class="num">02</span><small>Leve na mão</small><p>Recolha o guidão.<br>Carregue pela alça.</p></div>
+      <div class="frame" style="--img:url(assets/motion-3.webp)"><span class="num">03</span><small>Vá mais longe</small><p>Roda motorizada<br>para agilizar o trajeto.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 WHY -->
+<section class="why">
+  <div class="why-hero">
+    <div>
+      <div class="eyebrow reveal">Por que elétrica</div>
+      <h2 class="reveal">Feita para quem passa mais tempo em aeroportos do que gostaria.</h2>
+      <div class="why-photos"><div class="ph-l"></div><div class="ph-r"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 SPECS -->
+<section class="specs">
+  <div class="specs-in">
+    <div class="head">
+      <div><div class="eyebrow reveal">Especificações</div><h2 class="reveal">Os números<br>que importam.</h2></div>
+      <div class="seal reveal">Bateria removível · dentro do limite para cabine</div>
+    </div>
+    <div class="spec-grid reveal" data-stagger>
+      <div class="spec"><div class="v">10<small>km/h</small></div><div class="l">Velocidade máx.</div></div>
+      <div class="spec"><div class="v">12<small>km</small></div><div class="l">Autonomia</div></div>
+      <div class="spec"><div class="v">110<small>kg</small></div><div class="l">Carga máxima</div></div>
+      <div class="spec"><div class="v">8,5<small>kg</small></div><div class="l">Peso</div></div>
+      <div class="spec"><div class="v">26<small>L</small></div><div class="l">Capacidade</div></div>
+      <div class="spec"><div class="v">3<small>h</small></div><div class="l">Recarga completa</div></div>
+      <div class="spec"><div class="v">USB<small>C</small></div><div class="l">Carregamento</div></div>
+      <div class="spec tsa"><div class="v">TSA</div><div class="l">Cadeado</div><div class="peek"><img src="assets/cadeado.webp" alt="Cadeado TSA integrado"></div></div>
+    </div>
+    <div class="cta reveal">
+      <a class="btn btn-accent" href="#reservar">Reservar minha vaga</a>
+    </div>
+  </div>
+</section>
+
+<!-- 05 COLORS -->
+<section class="colors">
+  <div class="wrap">
+    <div class="plate reveal reveal-zoom"><img class="plate-img on" src="assets/cores.webp" alt="Mala na cor Dark Blue Gray"><img class="plate-img" src="assets/cores-ivory.webp" alt="Mala na cor Ivory White"><a class="btn btn-ghost-w plate-cta" href="#">Ver vídeo</a></div>
+    <div>
+      <div class="eyebrow reveal">Design</div>
+      <h2 class="reveal">Duas cores.<br>Uma assinatura.</h2>
+      <p class="lead reveal">Casco escovado, placa do logo em metal com relevo e a faixa tricolor que marca a origem. Cada detalhe foi pensado para ser notado de perto.</p>
+      <div class="swatches reveal" data-stagger>
+        <div class="sw on" data-img="0"><i class="navy"></i><b>Dark Blue Gray</b></div>
+        <div class="sw" data-img="1"><i class="ivory"></i><b>Ivory White</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 GUARANTEE -->
+<section class="guar" id="sinal">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow reveal">O que o sinal garante</div>
+      <h2 class="reveal">R$ 100 que<br>voltam para você.</h2>
+      <p class="lead reveal">O sinal não é uma taxa. É a sua posição na fila, e ele é descontado do valor final no dia do lançamento.</p>
+    </div>
+    <ul class="glist reveal" data-stagger>
+      <li><div><b>Vaga no primeiro lote</b><span>Entrega antes da venda pública.</span></div></li>
+      <li><div><b>Preço de lançamento travado</b><span>Mesmo que o preço público suba depois.</span></div></li>
+      <li><div><b>R$ 100 abatidos do valor final</b><span>O sinal vira desconto na compra.</span></div></li>
+      <li><div><b>Reembolso integral se desistir</b><span>A qualquer momento antes do lançamento, sem perguntas.</span></div></li>
+      <li><div><b>Acesso ao grupo com o fundador</b><span>Bastidores da produção e decisões em conjunto.</span></div></li>
+    </ul>
+  </div>
+</section>
+
+<!-- 09 PRICE -->
+<section class="price">
+  <div class="price-photo reveal reveal-zoom"></div>
+  <div class="price-col">
+    <div class="price-in">
+      <div class="eyebrow reveal">Investimento</div>
+      <h2 class="reveal">Preço de<br>pré-venda</h2>
+      <p class="lead reveal">Quem reserva agora paga o preço de lote, mesmo que o valor público suba no lançamento.</p>
+      <div class="pbox reveal">
+        <div class="was">Valor público previsto R$ 9.900</div>
+        <div class="now"><sup>R$</sup>3.450</div>
+        <a class="btn btn-accent" href="#reservar">Reservar com R$ 100</a>
+        <p class="fine">Reembolsável · abatido do valor final</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 FOUNDER -->
+<section class="founder">
+  <div class="wrap">
+    <div class="portrait reveal reveal-zoom"></div>
+    <div>
+      <div class="eyebrow reveal">Origem</div>
+      <h2 class="reveal">Nasceu de uma<br>conexão perdida<br>em Milão.</h2>
+      <p class="quote reveal">"Eu corria pelo terminal arrastando uma mala de dois mil reais e pensei: isso aqui deveria estar me levando."</p>
+      <p class="lead reveal">Esperandino Viaggio une a engenharia de mobilidade elétrica ao acabamento que a gente espera de um produto italiano. Produzida em pequenos lotes, cada unidade é numerada.</p>
+      <div class="sig reveal">John Esperandino<small>Fundador · Esperandino Viaggio</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- 12 FAQ -->
+<section class="faq">
+  <div class="wrap">
+    <div><div class="eyebrow sp reveal">Perguntas frequentes</div><h2 class="reveal">Antes de reservar.</h2></div>
+    <div class="faq-list reveal" data-stagger>
+      <details open><summary>Posso embarcar com a bateria?</summary><p>Sim. A bateria é removível e fica abaixo do limite de Wh exigido pelas companhias aéreas. Você retira em segundos e leva na mão.</p></details>
+      <details><summary>O sinal de R$ 100 é reembolsável?</summary><p>Integralmente, a qualquer momento antes do lançamento. Basta pedir no grupo ou por e-mail.</p></details>
+      <details><summary>Quando recebo a mala?</summary><p>O primeiro lote tem entrega prevista para março de 2027. Quem reserva recebe antes da venda pública.</p></details>
+      <details><summary>Qual a garantia?</summary><p>Dois anos para motor e bateria, com assistência no Brasil.</p></details>
+      <details><summary>Ela cabe como bagagem de mão?</summary><p>Sim. As dimensões seguem o padrão de cabine das principais companhias nacionais e internacionais.</p></details>
+      <details><summary>Como pago o valor restante?</summary><p>No lançamento, à vista com desconto ou em até 12 vezes no cartão. O sinal é descontado automaticamente.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- 13 FORM -->
+<section class="final" id="reservar">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow sp reveal">Reserve a sua</div>
+      <h2 class="reveal">Garanta sua<br>reserva agora</h2>
+      <p class="lead reveal">Preencha, pague o sinal e entre no grupo.</p>
+    </div>
+    <form class="reveal" onsubmit="event.preventDefault();alert('Próximo passo: checkout do sinal (R$ 100)')">
+      <div class="field"><label>Nome completo</label><input type="text" placeholder="Como você gostaria de ser chamado"></div>
+      <div class="field"><label>E-mail</label><input type="email" placeholder="seu@email.com"></div>
+      <div class="field"><label>WhatsApp</label><input type="tel" placeholder="(11) 90000-0000"></div>
+      <button class="btn btn-accent" type="submit">Garantir minha vaga · R$ 100</button>
+      <p class="fine">Reembolsável e abatido do valor final. Seus dados não são compartilhados.</p>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="brand"><svg class="mono"><use href="#monogram"/></svg>Esperandino Viaggio</div>
+    <div style="display:flex;gap:28px"><a href="#">Política do sinal</a><a href="#">Privacidade</a><a href="#">Instagram</a></div>
+    <div>© 2026 · CNPJ 00.000.000/0001-00</div>
+  </div>
+</footer>
+
+<script>
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.1});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+  document.querySelectorAll('.sw').forEach(s=>s.addEventListener('click',()=>{
+    document.querySelectorAll('.sw').forEach(x=>x.classList.remove('on','ivory-on'));
+    s.classList.add('on'); if(s.dataset.img==='1') s.classList.add('ivory-on');
+    document.querySelectorAll('.plate-img').forEach((im,i)=>im.classList.toggle('on',String(i)===s.dataset.img));
+  }));
+
+  /* elementos que acompanham a rolagem e param um pouco antes do texto da seção seguinte */
+  const follow=[
+    {el:'.lot',  target:'.motion .head', gap:40, from:'.hero'},
+    {el:'.ph-l', target:'.specs',        gap:48, from:'.why'},  /* param antes do fim da seção, sem invadir a próxima */
+    {el:'.ph-r', target:'.specs',        gap:48, from:'.why'}
+  ];
+  let fd=[];
+  const docTop=el=>{let y=0;while(el){y+=el.offsetTop;el=el.offsetParent}return y}; /* ignora transforms (reveal) */
+  function fMeasure(){
+    fd=follow.map(f=>{
+      const el=document.querySelector(f.el), t=document.querySelector(f.target), from=document.querySelector(f.from);
+      el.style.transform='';
+      const top=docTop(el), h=el.offsetHeight;
+      return {el, top, h, pin:top-docTop(from), max:docTop(t)-f.gap-h-top};
+    });
+    fUpdate();
+  }
+  function fUpdate(){
+    if(innerWidth<=900){fd.forEach(d=>d.el.style.transform='');return}
+    fd.forEach(d=>{
+      const off=Math.max(0,Math.min(scrollY+d.pin-d.top,d.max));
+      const rot=getComputedStyle(d.el).getPropertyValue('--rot').trim();
+      d.el.style.transform=(off>0?`translateY(${off}px) `:'')+(rot?`rotate(${rot})`:'');
+    });
+  }
+  let fTick=false;
+  addEventListener('scroll',()=>{if(!fTick){fTick=true;requestAnimationFrame(()=>{fUpdate();fTick=false})}},{passive:true});
+  addEventListener('resize',fMeasure);
+  addEventListener('load',fMeasure);
+  document.fonts&&document.fonts.ready.then(fMeasure);
+  fMeasure();
+</script>
+</body>
+</html>

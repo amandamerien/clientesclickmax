@@ -1,0 +1,242 @@
+.hero {
+  min-height: max(100vh, 760px);
+  padding: 0;
+  background: var(--hero);
+  color: #fff;
+  display: grid;
+  align-items: start;
+  z-index: 3;
+}
+
+.bg {
+  position: absolute;
+  inset: 0;
+}
+
+.bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+
+.grid {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  padding-top: clamp(136px, calc(27vh - 34px), 215px);
+  padding-bottom: 112px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 48px;
+  align-items: start;
+}
+
+.copy {
+  max-width: 593px;
+}
+
+/* Entrada da hero ao carregar: cada bloco sobe em sequência; o card entra por último. */
+.copy > * {
+  animation: fadeUp 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+}
+.copy > *:nth-child(1) { animation-delay: 0.15s; }
+.copy > *:nth-child(2) { animation-delay: 0.25s; }
+.copy > *:nth-child(3) { animation-delay: 0.35s; }
+.copy > *:nth-child(4) { animation-delay: 0.45s; }
+.copy > *:nth-child(5) { animation-delay: 0.55s; }
+.lot {
+  animation: fadeUp 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) 0.5s backwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  .copy > *,
+  .lot {
+    animation: none;
+  }
+}
+
+.kicker {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.kicker i {
+  width: 2px;
+  height: 2px;
+  background: #fff;
+  border-radius: 50%;
+}
+
+.lead {
+  color: #fff;
+  font-size: 16px;
+  line-height: 1.6;
+  max-width: 491px;
+  margin: 17px 0 30px;
+}
+
+.cta {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.cells {
+  list-style: none;
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-top: 86px;
+}
+
+.cell {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  line-height: 1.25;
+  color: #fff;
+}
+
+.cell b {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.tick {
+  width: 24px;
+  height: 24px;
+  flex: none;
+  margin-top: 2px;
+  color: var(--accent);
+}
+
+/* Card de lote: alinhado no topo com o H1 (kicker 14px + gap 10px) */
+.lot {
+  margin-top: 24px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(18px);
+  padding: 24px;
+  width: 306px;
+  display: grid;
+  gap: 16px;
+  will-change: transform;
+}
+
+.lotLabel {
+  font-size: 12px;
+  text-transform: uppercase;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.lotCount {
+  font-family: var(--disp);
+  font-size: 56px;
+  line-height: 1;
+  letter-spacing: -0.032em;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.slash {
+  width: 13px;
+  height: 48px;
+  flex: none;
+}
+
+.rows {
+  display: grid;
+  gap: 12px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  line-height: 1.25;
+}
+
+.row:first-child {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 8px;
+}
+
+.row dt {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.row dd {
+  font-weight: 500;
+  text-transform: uppercase;
+  font-size: 10px;
+}
+
+@media (max-width: 900px) {
+  .hero {
+    display: block;
+    min-height: 0;
+  }
+  .bg {
+    position: relative;
+    inset: auto;
+    height: 62vh;
+    min-height: 420px;
+  }
+  .bg img {
+    object-position: 62% 50%;
+  }
+  .bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(36, 36, 36, 0) 55%, var(--hero) 100%);
+  }
+  .grid {
+    grid-template-columns: 1fr;
+    padding-top: 0;
+    margin-top: -80px;
+    padding-bottom: 40px;
+    gap: 28px;
+  }
+  .cells {
+    margin-top: 40px;
+    gap: 16px;
+    flex-direction: column;
+  }
+  .lot {
+    width: 100%;
+    margin-top: 0;
+  }
+}
+
+/* Mobile: estrutura do frame 23:2040 do Figma (430px) */
+@media (max-width: 760px) {
+  .hero { display: grid; align-items: end; min-height: max(100vh, 760px); }
+  .bg { position: absolute; inset: 0; height: auto; min-height: 0; }
+  .bg img { object-position: 60% 50%; }
+  .bg::after { background: linear-gradient(180deg, rgba(36, 36, 36, 0.05) 0%, rgba(36, 36, 36, 0.45) 40%, rgba(36, 36, 36, 0.88) 100%); }
+  .grid { grid-template-columns: 1fr; padding: 140px 24px 56px; margin-top: 0; gap: 0; }
+  .kicker { margin-bottom: 24px; }
+  .hero h1 { font-size: 34px; }
+  .lead { font-size: 16px; line-height: 1.6; margin: 17px 0 30px; }
+  .cta { flex-direction: column; gap: 14px; }
+  .cta a { width: 100%; }
+  .cells { display: none; }
+  .lot { display: none; }
+}

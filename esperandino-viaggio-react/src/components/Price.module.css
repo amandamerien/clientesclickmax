@@ -1,0 +1,119 @@
+.price {
+  overflow: hidden;
+  background: var(--dark);
+  color: #fff;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 736fr 704fr;
+  min-height: 818px;
+}
+
+.photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.col {
+  display: grid;
+  place-items: center;
+  padding: 121px 48px;
+}
+
+.inner {
+  width: 100%;
+  max-width: 452px;
+  text-align: center;
+}
+
+.inner h2 {
+  font-size: clamp(40px, 4.3vw, 62px);
+}
+
+.lead {
+  color: #b0b0b0;
+  line-height: 1.4;
+  max-width: 412px;
+  margin: 12px auto 0;
+}
+
+.box {
+  background: #fff;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  padding: 34px 48px;
+  margin-top: 45px;
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+}
+
+.was {
+  font-size: 13px;
+  color: #5e5e5e;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 400;
+}
+
+.now {
+  font-family: var(--disp);
+  font-size: 96px;
+  line-height: 1;
+  letter-spacing: -0.017em;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.now sup {
+  font-size: 22px;
+  font-weight: 350;
+  line-height: 1.4;
+  letter-spacing: 0;
+}
+
+.box a {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.fine {
+  font-size: 11px;
+  color: #5c5c5c;
+  letter-spacing: 0.04em;
+  padding-top: 12px;
+}
+
+@media (max-width: 900px) {
+  .price {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+  .photo {
+    aspect-ratio: 736 / 600;
+    height: auto;
+  }
+  .col {
+    padding: 80px 20px;
+  }
+  .box {
+    padding: 28px 20px;
+  }
+  .now {
+    font-size: 72px;
+  }
+}
+
+/* Mobile: estrutura do frame 23:2040 do Figma (430px) */
+@media (max-width: 760px) {
+  .price { display: flex; flex-direction: column; align-items: center; min-height: 0; padding: 56px 0; text-align: center; }
+  .col, .inner { display: contents; }
+  .inner > * { order: 1; }
+  .price :global(.eyebrow) { text-align: center; }
+  .price h2 { font-size: 34px; padding: 0 20px; }
+  .lead { font-size: 14px; max-width: 320px; margin: 12px auto 0; }
+  .photo { order: 2; width: 100%; aspect-ratio: 430 / 297; height: auto; margin-top: 45px; }
+  .box { order: 3; width: calc(100% - 56px); margin: -140px 28px 0; position: relative; z-index: 1; padding: 34px 24px; text-align: center; }
+  .now { font-size: clamp(64px, 24vw, 96px); }
+}

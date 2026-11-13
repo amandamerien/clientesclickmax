@@ -1,0 +1,61 @@
+.nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  padding: 45px 0;
+  color: #fff;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  font-weight: 400;
+}
+
+.mono {
+  width: 17px;
+  height: 16px;
+  flex: none;
+}
+
+.link {
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  font-weight: 500;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 3px;
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  .nav {
+    padding: 22px 0;
+  }
+  .brand {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    gap: 10px;
+  }
+  .link {
+    font-size: 10px;
+  }
+}
+
+/* Mobile: estrutura do frame 23:2040 do Figma (430px) */
+@media (max-width: 760px) {
+  .nav { padding: 45px 0; }
+  .link { display: none; }
+}
