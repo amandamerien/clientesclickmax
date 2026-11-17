@@ -1,5 +1,6 @@
 import { brand, hero } from '../content/site'
 import heroImg from '../assets/images/hero.webp'
+import heroVideo from '../assets/video/hero.mp4'
 import { DoubleTick, Slash } from './Icons'
 import s from './Hero.module.css'
 
@@ -16,6 +17,10 @@ export default function Hero() {
           // React 18 ainda não tipa fetchpriority; o atributo em minúsculas chega ao DOM como esperado.
           {...{ fetchpriority: 'high' }}
         />
+        {/* Vídeo só no desktop; no mobile fica a foto (ver Hero.module.css) */}
+        <video className={s.video} autoPlay muted loop playsInline preload="metadata" poster={heroImg} aria-hidden="true">
+          <source src={heroVideo} type="video/mp4" />
+        </video>
       </div>
       <div className={`wrap ${s.grid}`}>
         <div className={s.copy}>
