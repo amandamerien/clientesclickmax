@@ -3,6 +3,14 @@
   z-index: 1;
 }
 
+/* Sobe 48px para encaixar no recorte da hero */
+@media (min-width: 901px) {
+  .motion {
+    margin-top: -48px;
+    padding-top: 176px;
+  }
+}
+
 .lead {
   max-width: 400px;
   justify-self: end;
