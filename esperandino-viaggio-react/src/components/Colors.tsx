@@ -3,6 +3,8 @@ import { colors } from '../content/site'
 import SectionHead from './SectionHead'
 import darkBlueGray from '../assets/images/cor-dark-blue-gray.webp'
 import ivoryWhite from '../assets/images/cor-ivory-white.webp'
+import video from '../assets/video/mala-aeroporto.mp4'
+import VideoModal, { useVideoModal } from './VideoModal'
 import s from './Colors.module.css'
 
 const IMAGES: Record<string, string> = {
@@ -12,6 +14,7 @@ const IMAGES: Record<string, string> = {
 
 export default function Colors() {
   const [active, setActive] = useState(colors.options[0].id)
+  const modal = useVideoModal()
 
   return (
     <section className={s.colors} data-section="colors">
@@ -29,7 +32,8 @@ export default function Colors() {
               className={`${s.plateImg} ${active === o.id ? s.on : ''}`}
             />
           ))}
-          <a className={`btn btn--ghost-w ${s.plateCta}`} href="#">Ver vídeo</a>
+          <button type="button" className={`btn btn--ghost-w ${s.plateCta}`} onClick={modal.open}>Ver vídeo</button>
+          <VideoModal src={video} {...modal} />
         </div>
         <div>
           <SectionHead eyebrow={colors.eyebrow} title={colors.title} />

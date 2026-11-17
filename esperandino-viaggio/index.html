@@ -184,7 +184,15 @@
 
   /* price */
   .price{background:var(--dark);color:#fff;padding:0;display:grid;grid-template-columns:736fr 704fr;min-height:818px}
-  .price-photo{background:url(assets/preco.webp) center/cover no-repeat}
+  .price-photo{background:url(assets/preco.webp) center/cover no-repeat;position:relative}
+  .play-btn{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:2;display:inline-flex;align-items:center;gap:12px;padding:16px 26px;border:1px solid rgba(255,255,255,.6);background:rgba(21,24,28,.35);backdrop-filter:blur(10px);color:#fff;font:600 12px/1 var(--body);letter-spacing:.2em;text-transform:uppercase;cursor:pointer;transition:background .25s,border-color .25s}
+  .play-btn:hover{background:var(--accent);border-color:var(--accent)}
+  .play-ic{width:0;height:0;border-left:10px solid #fff;border-top:6px solid transparent;border-bottom:6px solid transparent}
+  .video-modal{margin:auto;border:0;padding:0;background:#000;max-width:92vw;max-height:none;overflow:visible} /* o modal abraça o vídeo, vertical ou horizontal */
+  .video-modal::backdrop{background:rgba(0,0,0,.85)}
+  .video-modal video{display:block;max-width:92vw;max-height:85vh;background:#000}
+  .vm-close{position:absolute;top:-44px;right:0;width:36px;height:36px;border:1px solid rgba(255,255,255,.4);background:transparent;color:#fff;font-size:22px;line-height:1;cursor:pointer}
+  .vm-close:hover{background:#fff;color:#000}
   .price-col{display:grid;place-items:center;padding:121px 48px}
   .price-in{width:100%;max-width:452px;text-align:center}
   .price-in .eyebrow{text-align:center}
@@ -457,7 +465,7 @@
 <!-- 05 COLORS -->
 <section class="colors">
   <div class="wrap">
-    <div class="plate reveal reveal-zoom"><img class="plate-img on" src="assets/cores.webp" alt="Mala na cor Dark Blue Gray"><img class="plate-img" src="assets/cores-ivory.webp" alt="Mala na cor Ivory White"><a class="btn btn-ghost-w plate-cta" href="#">Ver vídeo</a></div>
+    <div class="plate reveal reveal-zoom"><img class="plate-img on" src="assets/cores.webp" alt="Mala na cor Dark Blue Gray"><img class="plate-img" src="assets/cores-ivory.webp" alt="Mala na cor Ivory White"><button class="btn btn-ghost-w plate-cta" type="button" data-video="assets/mala-aeroporto.mp4">Ver vídeo</button></div>
     <div>
       <div class="eyebrow reveal">Design</div>
       <h2 class="reveal">Duas cores.<br>Uma assinatura.</h2>
@@ -490,7 +498,7 @@
 
 <!-- 09 PRICE -->
 <section class="price">
-  <div class="price-photo reveal reveal-zoom"></div>
+  <div class="price-photo reveal reveal-zoom"><button class="play-btn" type="button" data-video="assets/mala-aeroporto.mp4"><i class="play-ic" aria-hidden="true"></i>Ver vídeo</button></div>
   <div class="price-col">
     <div class="price-in">
       <div class="eyebrow reveal">Investimento</div>
@@ -561,6 +569,11 @@
   </div>
 </footer>
 
+<dialog class="video-modal" id="video-modal" aria-label="Vídeo">
+  <button class="vm-close" type="button" aria-label="Fechar">×</button>
+  <video controls playsinline preload="none"></video>
+</dialog>
+
 <script>
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.1});
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
@@ -569,6 +582,13 @@
     s.classList.add('on'); if(s.dataset.img==='1') s.classList.add('ivory-on');
     document.querySelectorAll('.plate-img').forEach((im,i)=>im.classList.toggle('on',String(i)===s.dataset.img));
   }));
+
+  /* modal de vídeo: qualquer [data-video] abre o arquivo indicado */
+  const vm=document.getElementById('video-modal'), vmv=vm.querySelector('video');
+  document.querySelectorAll('[data-video]').forEach(b=>b.addEventListener('click',e=>{e.preventDefault();vmv.src=b.dataset.video;vm.showModal();vmv.play().catch(()=>{})}));
+  vm.querySelector('.vm-close').addEventListener('click',()=>vm.close());
+  vm.addEventListener('click',e=>{if(e.target===vm)vm.close()});
+  vm.addEventListener('close',()=>{vmv.pause();vmv.removeAttribute('src');vmv.load()});
 
   /* elementos que acompanham a rolagem e param um pouco antes do texto da seção seguinte */
   const follow=[

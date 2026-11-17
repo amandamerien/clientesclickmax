@@ -8,6 +8,10 @@
   min-height: 818px;
 }
 
+.photoWrap {
+  position: relative;
+}
+
 .photo {
   width: 100%;
   height: 100%;
@@ -113,7 +117,8 @@
   .price :global(.eyebrow) { text-align: center; }
   .price h2 { font-size: 34px; padding: 0 20px; }
   .lead { font-size: 14px; max-width: 320px; margin: 12px auto 0; }
-  .photo { order: 2; width: 100%; aspect-ratio: 430 / 297; height: auto; margin-top: 45px; }
+  .photoWrap { order: 2; width: 100%; margin-top: 45px; }
+  .photo { aspect-ratio: 430 / 297; height: auto; }
   .box { order: 3; width: calc(100% - 56px); margin: -140px 28px 0; position: relative; z-index: 1; padding: 34px 24px; text-align: center; }
   .now { font-size: clamp(64px, 24vw, 96px); }
 }
